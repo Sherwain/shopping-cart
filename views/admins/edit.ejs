@@ -1,0 +1,31 @@
+<%- include('../includes/head') %>
+  <link rel="stylesheet" href="/css/forms.css">
+  <link rel="stylesheet" href="/css/products.css">
+  </head>
+  <body>
+    <%- include('../includes/navigation') %>
+    <main>
+       <form class="product-form" action="/admins/<%= product.id %>/?_method=PUT" method="POST">
+        <div class="form-control">
+          <label>product.title </label>
+        </div>
+
+        <div class="form-control">
+          <label for="imgUrl">Image Url</label>
+          <input type="text" name="product[imgUrl]" id="imgUrl" value="<%= product.imgUrl %>" />
+        </div>
+
+        <div class="form-control">
+          <label for="description">Description</label>
+          <textarea  name="product[description]" id="description" row="5"><%= product.description %></textarea>
+        </div>
+
+        <div class="form-control">
+          <label for="price">Price</label>
+          <input type="number" name="product[price]" id="price" step="0.01" value="<%= product.price %>" />
+        </div>
+
+        <button class="btn">Update Product</button>
+      </form>
+    </main>
+<%- include('../includes/foot') %>
