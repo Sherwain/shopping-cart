@@ -4,6 +4,47 @@
   <body>
     <%- include('../includes/navigation') %>
     <main>
-      My cart
+      <% if (cart.products) { %>
+      <div class="grid">
+        <% for (let id in cart.products) { %>
+          <form class="product-form" action="/shops/cart/<%= id %>" method="POST">
+            <article class="card product-item">
+              <header class="card__header">
+                <h1 class="product__title"><%= cart.products[id].product.title %></h1>
+              </header>
+              <div class="card__image">
+                <img
+                  src="<%= cart.products[id].product.imgUrl %> "
+                  alt="..."
+                />
+              </div>
+              <div class="card__content">
+                <h2 class="product__price">Price: $<%= cart.products[id].product.price %> </h2>
+                <h2 class="product__price">Quantity: <%= cart.products[id].quantity %> </h2>
+                <h2 class="product__price">SubTotal: <%=cart.products[id].total %> </h2>
+                <p class="product__description">
+                  Description: <%= cart.products[id].product.description %>
+                </p>
+              </div>
+              <div class="card__actions">
+                <label for="quantity">Number of items:</label>
+                <select name="quantity" id="quantity">
+                  <option <%= cart.products[id].quantity === '0' ? 'selected' : ''%> value="0">Delete</option>
+                  <option <%= cart.products[id].quantity === '1' ? 'selected' : ''%> value="1">1</option>
+                  <option <%= cart.products[id].quantity === '2' ? 'selected' : ''%> value="2">2</option>
+                  <option <%= cart.products[id].quantity === '3' ? 'selected' : ''%> value="3">3</option>
+                  <option <%= cart.products[id].quantity === '4' ? 'selected' : ''%> value="4">4</option>
+                  <option <%= cart.products[id].quantity === '5' ? 'selected' : ''%> value="5">5</option>
+                </select>
+                <button type="submit" class="btn">Update Items</button>
+              </div>
+            </article>
+          </form>
+        <% } %>
+      </div>
+        <% } else { %>
+      <h1 class="centered">No Products Found!</h1>
+      <% } %>
+      <h2 class="product__price">Total: $<%= cart.totalAmount | 0 %> </h2>
     </main>
 <%- include('../includes/foot') %>

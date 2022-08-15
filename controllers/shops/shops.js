@@ -1,4 +1,6 @@
 const { Product } = require("../../models/product");
+const { Cart } = require("../../models/cart");
+const { filterObject, filteredCart } = require("../../util/helper");
 
 //list of a subset of the products for shopping
 function index(req, res, next) {
@@ -21,20 +23,44 @@ function products(req, res, next) {
 }
 
 function cart(req, res, next) {
-  const products = Product.fetchAll();
+  const allProducts = Product.fetchAll().map((prod) => prod.id);
+  req.session.cart = req.session.cart || { products: {}, totalAmount: 0 };
+
+  req.session.cart.products = Cart.updateCart(req.session.cart, (key) =>
+    allProducts.includes(key)
+  );
+
+  req.session.cart.totalAmount = Cart.getTotal(
+    req.session.cart,
+    (value, key) => key.quantity * key.price
+  );
+
   res.render("shops/cart", {
+    cart: req.session.cart,
     pageTitle: "My Cart",
     path: "/shops/cart",
   });
 }
 
 function addToCart(req, res, next) {
-  // const products = Product.fetchAll();
   const product = Product.findById(req.params.id);
+  req.session.cart = req.session.cart || { products: {}, totalAmount: 0 };
+  Cart.addProduct(product, req.session.cart);
   res.render("shops/cart", {
-    prods: product,
+    cart: req.session.cart,
     pageTitle: "Checkout",
-    path: "/product-details",
+    path: "/shops/cart",
+  });
+}
+
+// gets all products
+function updateCart(req, res, next) {
+  req.session.cart = req.session.cart || { products: {}, totalAmount: 0 };
+  Cart.updateCartItem(req.params.id, req.session.cart, req.body.quantity);
+  res.render("shops/cart", {
+    cart: req.session.cart,
+    pageTitle: "My Cart",
+    path: "/shops/cart",
   });
 }
 
@@ -83,4 +109,5 @@ module.exports = {
   show,
   addToCart,
   orders,
+  updateCart,
 };

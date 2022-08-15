@@ -3,6 +3,9 @@ const shopController = require("../controllers/shops/shops");
 const express = require("express");
 const router = express.Router();
 
+//endpoint to delete an item from cart
+router.post("/cart/:id", shopController.updateCart);
+
 // view cart
 router.get("/cart", shopController.cart);
 

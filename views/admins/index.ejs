@@ -10,7 +10,7 @@
         <% for (let product of prods) { %>
           <form
           method="POST"
-          action="/admins/<%= product.title %>?_method=DELETE"
+          action="/admins/<%= product.id %>?_method=DELETE"
           >
           <article class="card product-item">
             <header class="card__header">

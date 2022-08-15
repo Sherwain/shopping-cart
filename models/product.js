@@ -35,6 +35,9 @@ class Product {
 
   static findByIdAndUpdate(id, newProduct) {
     const index = this.getProductIndexById(id);
+    console.log("id", id);
+    console.log("newProduct", newProduct);
+    console.log("products", products);
     if (index >= 0) {
       console.log(`Updating product ${id}...`);
       const product = products[index];
@@ -42,9 +45,10 @@ class Product {
       product.imgUrl = newProduct.imgUrl;
       product.description = newProduct.description;
       product.price = newProduct.price;
-      product[index] = product;
+      products[index] = product;
       return product;
     }
+    console.log("Product not for to be updated", index);
     return;
   }
 

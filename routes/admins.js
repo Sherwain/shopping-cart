@@ -10,7 +10,7 @@ router.get("/new", productController.newProduct);
 router.get("/:id/edit", productController.edit);
 
 //endpoint to update an existing product
-router.put("/:productId", productController.update);
+router.put("/:id", productController.update);
 
 //endpoint to delete an existing product
 router.delete("/:id", productController.deleteProduct);

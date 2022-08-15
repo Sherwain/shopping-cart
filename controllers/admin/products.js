@@ -33,6 +33,7 @@ function create(req, res, next) {
 
 //handles the updating of an existing product
 function update(req, res, next) {
+  console.log("req.params", req.params);
   const { id } = req.params;
   const product = Product.findByIdAndUpdate(id, req.body.product);
   console.log("product update", product);
